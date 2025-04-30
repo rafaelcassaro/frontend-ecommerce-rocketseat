@@ -6,14 +6,11 @@ import styled from "styled-components";
 const HeaderWrapper = styled.header`
     display: flex;
     justify-content: space-between;
-   
-    width: 1440px;
+    max-width: 1440px;
     margin: 0 auto;
+    background-color: white;
     
-
 `
-
-
 const ImageWrapper = styled.div`
 
     width: 80px;
@@ -23,7 +20,6 @@ const ImageWrapper = styled.div`
     position: relative;
     cursor: pointer;
 `
-
 const CartInputWrapper = styled.div`
     display: flex;
     gap: 16px;
@@ -39,7 +35,6 @@ const CartInputWrapper = styled.div`
             border: 0;
             color: var(--font-color-grey);
         }
-    
 `
 
 export default function Header() {

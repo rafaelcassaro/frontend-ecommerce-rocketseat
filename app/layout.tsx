@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./ui/header";
 import { saira } from "./ui/fonts";
-
+import StyledComponentsRegistry from "./registry";
 
 
 export const metadata: Metadata = {
@@ -18,8 +18,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${saira.className}`}>
-        <Header/>
-        {children}
+        <StyledComponentsRegistry>
+          <Header />
+          <div className="pages-background">
+            <div className="pages-maxsize">
+              {children}
+            </div>
+          </div>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

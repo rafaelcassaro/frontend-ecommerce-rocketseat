@@ -1,5 +1,6 @@
 :root {
-  --bg-primary: #F0F0F5;
+  --bg-primary: #f0f0f5;
+  --bg-card: #ffffff66;
   --font-color-grey: #737380;
 }
 
@@ -13,4 +14,22 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+.pages-background {
+  background-color: var(--bg-primary);
+}
+
+.pages-maxsize {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 480px) {
+
 }
