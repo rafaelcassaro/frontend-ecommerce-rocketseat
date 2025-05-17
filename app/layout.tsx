@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "./ui/header";
+import Header from "@/app/ui/header";
 import { saira } from "./ui/fonts";
 import StyledComponentsRegistry from "./registry";
 

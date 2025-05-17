@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
 
 const HeaderWrapper = styled.header`
@@ -42,23 +43,31 @@ export default function Header() {
     return (
         <HeaderWrapper>
             <ImageWrapper>
+                <Link
+                href={"/"}
+                >
                 <Image
                     src="/imgs/shop_icon.png"
                     alt="Screenshot"
                     fill
                 />
+                </Link>
             </ImageWrapper>
             <CartInputWrapper>
                 <input
                     placeholder="Procurando por algo específico?"
                 />
+                <Link
+                href={"/cart"}
+                >
+                    <Image
+                        src="/imgs/cart_icon.png"
+                        alt="Screenshot"
+                        width={48}
+                        height={48}
+                    />
+                </Link>
                 
-                <Image
-                    src="/imgs/cart_icon.png"
-                    alt="Screenshot"
-                    width={48}
-                    height={48}
-                />
 
 
             </CartInputWrapper>

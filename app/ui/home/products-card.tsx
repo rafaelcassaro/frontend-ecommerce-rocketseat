@@ -1,6 +1,7 @@
 'use client'
 
 import Image from "next/image"
+import Link from "next/link"
 import styled, { css } from "styled-components"
 
 const Card = styled.div`
@@ -17,6 +18,7 @@ const Card = styled.div`
 const Text = styled.p`
     margin: 6px 6px;
     text-align: left;
+    font-size: 20.56px;
     ${(props: any) => {
         switch (props.$mode) {
             case "botton":
@@ -38,11 +40,13 @@ export default function ProductsCard() {
 
     return (
         <Card>
+            <Link href="#">
+            </Link>
             <Image
                 src="https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg"
                 alt="Screenshot"
-                width={256}
-                height={300}
+                width={328.96}
+                height={385.5}
             />
 
             <div>

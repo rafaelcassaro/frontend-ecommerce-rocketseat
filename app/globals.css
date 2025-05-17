@@ -2,6 +2,8 @@
   --bg-primary: #f0f0f5;
   --bg-card: #ffffff66;
   --font-color-grey: #737380;
+  --font-color-dark: #41414D;
+  --font-color-black: #09090A;
 }
 
 * {
@@ -16,8 +18,15 @@ body {
   overflow-x: hidden;
 }
 
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
 .pages-background {
   background-color: var(--bg-primary);
+  min-height: 100vh;
+  padding-bottom: 36px;
 }
 
 .pages-maxsize {
@@ -25,6 +34,12 @@ body {
   margin: 0 auto;
 }
 
+a {
+  all: unset;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
 
 @media (max-width: 768px) {
 
