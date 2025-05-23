@@ -1,44 +1,22 @@
-'use client'
-import styled, { css } from "styled-components";
 import FiltersTypes from "./ui/home/filters-types";
 import ProductsCard from "./ui/home/products-card";
+import { Product } from "./types/products";
+import { BgColor, CardsArea } from "./ui/home/card-area";
 
-const BgColor = styled.div`
-  min-height: 100vh;
-  padding-bottom: 36px;
-`
-const CardsArea = styled.div`
-  padding-top: 32px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-`
-
-export default function Home() {
-
-
+export default async function Home() {
+  const res = await fetch('https://fakestoreapi.com/products', {
+    next: { revalidate: 3600 },
+  });
+  const products= await res.json();
   return (
 
     <BgColor >
       <main >
         <FiltersTypes/>
         <CardsArea>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
-          <ProductsCard/>
+          {products.map ( (product: Product) => 
+            <ProductsCard key={product.id} product={product}/>
+          )}
         </CardsArea>
       </main>
     </BgColor >

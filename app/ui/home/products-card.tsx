@@ -1,8 +1,13 @@
 'use client'
 
+import { Product } from "@/app/types/products";
 import Image from "next/image"
 import Link from "next/link"
 import styled, { css } from "styled-components"
+
+interface Props {
+    $mode: 'botton' | 'top';
+}
 
 const Card = styled.div`
     background-color: white;
@@ -15,11 +20,11 @@ const Card = styled.div`
     cursor: pointer;
 `
 
-const Text = styled.p`
+const Text = styled.p<Props>`
     margin: 6px 6px;
     text-align: left;
     font-size: 20.56px;
-    ${(props: any) => {
+    ${(props) => {
         switch (props.$mode) {
             case "botton":
                 return css`
@@ -27,7 +32,7 @@ const Text = styled.p`
                 color: #09090A;
                 border-bottom: 0;
             `;
-            default:
+            case "top":
                 return css`
                 border-bottom: 1px solid #DCE2E5;
             `;
@@ -36,23 +41,25 @@ const Text = styled.p`
 `
 
 
-export default function ProductsCard() {
+export default function ProductsCard({ product }: { product: Product }) {
 
     return (
         <Card>
-            <Link href="#">
-            </Link>
-            <Image
-                src="https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg"
-                alt="Screenshot"
-                width={328.96}
-                height={385.5}
-            />
+            <Link href={`/${product.id}`}>
 
-            <div>
-                <Text>WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive</Text>
-                <Text $mode="botton">R$ 40,00</Text>
-            </div>
+                <Image
+                    src={product.image}
+                    alt={product.title}
+                    width={328.96}
+                    height={385.5}
+                    priority={false}
+                />
+
+                <div>
+                    <Text $mode="top">{product.title}</Text>
+                    <Text $mode="botton">R$ {product.price}</Text>
+                </div>
+            </Link>
         </Card>
     )
 }

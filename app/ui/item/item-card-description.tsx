@@ -1,8 +1,14 @@
 "use client"
 
 import Image from "next/image"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import AddCardButton from "./add-card-button"
+import { Product } from "@/app/types/products"
+
+interface Texts {
+    $mode: 'price' | 'category' | 'freight' | 'description';
+
+}
 
 const Section = styled.section`
     display: flex;
@@ -16,26 +22,36 @@ const NamePrice = styled.div`
     font-weight: 300;
     margin: 30px 0;
 `
-const ItemCategory = styled.p`
-    font-size: 20.56px;
-    font-weight: 400;
-    color: var(--font-color-dark);
-`
-const ItemPrice = styled.p`
-    color: var(--font-color-black);
-    font-size: 25.7px;
-    font-weight: 600;
-`
-
-const ItemFrete = styled.p`
-    font-size: 15.42px;
-    font-weight: 400;
-    color: var(--font-color-dark);
-`
-const ItemDescription = styled.p`
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--font-color-dark);
+const Text = styled.p<Texts>`
+    ${(text) => {
+        switch (text.$mode) {
+            case "price":
+                return css`
+                color: var(--font-color-black);
+                font-size: 25.7px;
+                font-weight: 600;
+                `
+            case "category":
+                return css`
+                font-size: 20.56px;
+                font-weight: 400;
+                color: var(--font-color-dark);                            
+                `
+            case "freight":
+                return css`
+                font-size: 15.42px;
+                font-weight: 400;
+                color: var(--font-color-dark);                
+                `
+            case "description":
+                return css`
+                font-size: 18px;
+                font-weight: 400;
+                color: var(--font-color-dark);
+                margin-top: 1rem;
+                `
+        }
+    }}
 `
 const Infos = styled.div`
     display: flex;
@@ -54,35 +70,31 @@ const Infos = styled.div`
 `
 const Description = styled.div`
     margin-top: 4rem;
-    p{
-        margin-top: 1rem;
-    }
-
 `
 
-export default function ItemCardDescription() {
-
+export default function ItemCardDescription({product}:{product: Product}) {
     return (
         <Section>
             <Image
-                src="https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg"
+                priority={false}
+                src={product.image}
                 alt="Screenshot"
                 width={800}
                 height={725}
             />
             <Infos>
-                <ItemCategory>Caneca</ItemCategory>
+                <Text $mode="category">{product.category}</Text>
 
                 <NamePrice>
-                    <h2>Caneca de cerâmica rústica</h2>
-                    <ItemPrice>R$ 40,00</ItemPrice>
+                    <h2>{product.title}</h2>
+                    <Text $mode="price">R$ {product.price}</Text>
                 </NamePrice>
 
-                <ItemFrete>*Frete de R$40,00 para todo o Brasil. Grátis para compras acima de R$900,00.</ItemFrete>
+                <Text $mode="freight">*Frete de R$40,00 para todo o Brasil. Grátis para compras acima de R$900,00.</Text>
 
                 <Description>
                     <h3>Descrição</h3>
-                    <ItemDescription>Aqui vem um texto descritivo do produto, esta caixa de texto servirá apenas de exemplo para que simule algum texto que venha a ser inserido nesse campo, descrevendo tal produto.</ItemDescription>
+                    <Text $mode="description">{product.description}</Text>
                 </Description>
 
                 <AddCardButton />

@@ -50,6 +50,7 @@ export default function Header() {
                     src="/imgs/shop_icon.png"
                     alt="Screenshot"
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 </Link>
             </ImageWrapper>
