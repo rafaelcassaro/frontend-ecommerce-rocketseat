@@ -3,6 +3,8 @@
 import Image from "next/image";
 import styled from "styled-components";
 import icon from '@/app/ui/icons/trash.svg';
+import { userProduct } from "@/app/types/products";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 const Card = styled.div`
     display: flex;
@@ -17,7 +19,7 @@ const CardData = styled.div`
     background-color: #FFFFFF;
     border-radius: 0 8px 8px 0;
     color: var(--font-color-dark);
-
+    margin-top: 20px;
     div{
         display: flex;
         justify-content: space-between;
@@ -51,37 +53,69 @@ const Total = styled.div`
 `
 
 
-export default function CartItem() {
+export default function CartItem({ items, setItems, totalVal }:
+    { items: userProduct[], setItems: Dispatch<SetStateAction<userProduct[]>>, totalVal: string }) {
+
+    function handleRemoveItem(item: userProduct) {
+        const tempItems = [...items];
+        tempItems.splice(items.indexOf(item), 1);
+        setItems(tempItems);
+        localStorage.setItem("teste", JSON.stringify(tempItems));
+    }
+
+    function handleQuantity(item: userProduct, e: ChangeEvent<HTMLSelectElement>) {
+        const value = e.target.value;
+        const tempItems = [...items];
+        const number = parseInt(value);
+
+        tempItems[tempItems.indexOf(item)].qntd = number;
+        setItems([...tempItems]);
+        localStorage.setItem("teste", JSON.stringify(tempItems));
+    }
 
     return (
-        <Card>
-            <Image
-                src="https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg"
-                alt="Screenshot"
-                width={328.96}
-                height={271.135}
-                style={{
-                    borderRadius: '8px 0 0 8px' ,
-                }}
-            />
-            <CardData>
-                <div>
-                    <ItemTitle>Caneca de cerâmica rústica</ItemTitle>
-                    <Image src={icon} alt="Logo" width={24} height={24} />
-                </div>
+        <>
+            <p style={{ color: "var(--font-color-dark)", fontWeight: "300", margin: "16px 0" }}>Total (3 produtos)
+                <span style={{ fontWeight: "500" }}> R${totalVal}</span>
+            </p>
+            {items !== null ?
+                items.map((item) => (
+                    <Card key={item.id}>
+                        <Image
+                            src={item.image}
+                            alt="Screenshot"
+                            width={328.96}
+                            height={271.135}
+                            style={{
+                                borderRadius: '8px 0 0 8px',
+                            }}
+                        />
+                        <CardData>
+                            <div>
+                                <ItemTitle>{item.title}</ItemTitle>
+                                <Image src={icon} alt="Logo" width={24} height={24} onClick={() => handleRemoveItem(item)} />
+                            </div>
 
-                <ItemDescription>Aqui vem um texto descritivo do produto, esta caixa de texto servirá apenas de exemplo para que simule algum texto que venha a ser inserido nesse campo, descrevendo tal produto.</ItemDescription>
+                            <ItemDescription>{item.description} </ItemDescription>
 
-                <div>
-                    <select name="select">
-                        <option value="valor1">1</option>
-                        <option value="valor2" >2</option>
-                        <option value="valor3">3</option>
-                    </select>
-                    <Total>RS 40,00</Total>
-                </div>
+                            <div>
+                                <select name="select"
+                                    id="itemQntd"
+                                    defaultValue={item.qntd}
+                                    onChange={(e) => handleQuantity(item, e)}
+                                >
+                                    <option value="1" >1</option>
+                                    <option value="2" >2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <Total>RS {item.price}</Total>
+                            </div>
 
-            </CardData>
-        </Card>
+                        </CardData>
+                    </Card>
+                ))
+
+                : <p>O carrinho está vazio.</p>}
+        </>
     )
 }

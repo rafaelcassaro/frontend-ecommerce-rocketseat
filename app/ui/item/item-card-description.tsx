@@ -97,7 +97,7 @@ export default function ItemCardDescription({product}:{product: Product}) {
                     <Text $mode="description">{product.description}</Text>
                 </Description>
 
-                <AddCardButton />
+                <AddCardButton product={product}/>
             </Infos>
         </Section>
     )

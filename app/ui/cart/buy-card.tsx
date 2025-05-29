@@ -58,14 +58,15 @@ const BottonLinks = styled.div`
 `
 
 
-export default function BuyCard() {
+export default function BuyCard({totalVal}:{totalVal:string}) {
+    const freight = (parseFloat(totalVal)+40).toFixed(2);
 
     return (
         <Card>
             <h2>resumo do pedido</h2>
             <div>
                 <p>Subtotal de produtos</p>
-                <p>R$ 161,00</p>
+                <p>R$ {totalVal}</p>
             </div>
             <div>
                 <p>Entrega</p>
@@ -74,7 +75,7 @@ export default function BuyCard() {
             <hr/>
             <div>
                 <span>Total</span>
-                <span>R$ 201,00</span>
+                <span>R$ {freight}</span>
             </div>
             <button>Finalizar a compra</button>
 

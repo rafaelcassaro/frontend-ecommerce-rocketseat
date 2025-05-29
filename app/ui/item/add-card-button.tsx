@@ -1,4 +1,6 @@
 "use client"
+import { useLocalStorage } from "@/app/hooks/useLocalStorage"
+import { Product } from "@/app/types/products"
 import styled from "styled-components"
 
 const AddCartButton = styled.button`
@@ -13,9 +15,9 @@ const AddCartButton = styled.button`
     cursor: pointer;
 `
 
-export default function AddCardButton() {
+export default function AddCardButton({product}:{product:Product}) {
     return (
-        <AddCartButton>
+        <AddCartButton onClick={() => useLocalStorage().addItem(product)}>
             Adicionar ao carrinho
         </AddCartButton>
     )
