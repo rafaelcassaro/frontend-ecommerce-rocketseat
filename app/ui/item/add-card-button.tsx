@@ -16,8 +16,14 @@ const AddCartButton = styled.button`
 `
 
 export default function AddCardButton({product}:{product:Product}) {
+
+    function handleButton () {
+        useLocalStorage().addItem(product);
+        window.dispatchEvent(new Event('local-storage-changed'));
+    }
+
     return (
-        <AddCartButton onClick={() => useLocalStorage().addItem(product)}>
+        <AddCartButton onClick={handleButton}>
             Adicionar ao carrinho
         </AddCartButton>
     )

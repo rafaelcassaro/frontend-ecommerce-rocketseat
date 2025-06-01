@@ -61,16 +61,26 @@ const CartInputWrapper = styled.div`
         }
 `
 
-export default function Header() {
-    //const items = useLocalStorage().getItems<userProduct>();
-    
-    const [items, setItems ]= useState(useLocalStorage().getItems<userProduct>());
-    let totalVal = "0";
-    useEffect ( ()=>{
-        //const items = useLocalStorage().getItems<userProduct>();
-        totalVal = items.reduce((sum, item) => sum + item.qntd, 0).toFixed(0);
 
-    }, [items]);
+export default function Header() {
+    const [totalVal, setTotalVal] = useState("0");
+
+    useEffect(() => {
+        const loadTotal = () => {
+            const items = useLocalStorage().getItems<userProduct>();
+            const total = items.reduce((sum, item) => sum + item.qntd, 0).toFixed(0);
+            setTotalVal(total);
+        }
+
+        loadTotal();
+
+        window.addEventListener('local-storage-changed',
+            loadTotal
+        );
+        return () => {
+            window.removeEventListener('local-storage-changed', loadTotal);
+        };
+    }, [])
 
     return (
         <HeaderWrapper>
@@ -102,7 +112,7 @@ export default function Header() {
                         />
                         <p>{totalVal}</p>
                     </Link>
-                    
+
                 </div>
 
 

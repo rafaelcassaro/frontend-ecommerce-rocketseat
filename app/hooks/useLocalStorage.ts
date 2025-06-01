@@ -1,10 +1,7 @@
-import { useEffect } from "react";
 import { Product, userProduct } from "../types/products";
 
 export function useLocalStorage() {
-    //localStorage.setItem("teste", "alou123"); 
-
-    let key = "teste";
+    let key = "userCart";
 
     function showLocal() {
         if (typeof window !== 'undefined' || localStorage.getItem(key) !== null) {
@@ -15,12 +12,10 @@ export function useLocalStorage() {
             console.log(localResult);
             prodsList.push(...localResult);
             console.log(prodsList);
-
             console.log("-------------------------");
 
         }
         return null
-
     }
 
     function addItem(product: Product) {
@@ -35,7 +30,6 @@ export function useLocalStorage() {
             //REMOVE ITEM IF EXISTS
             for(let prod of localResult) {
                 if(prod.id === updated.id){
-                    //prod.qntd++;
                     localResult.splice(localResult.indexOf(prod),1)
                     localStorage.setItem(key, JSON.stringify(localResult));
                     return ;
@@ -53,35 +47,7 @@ export function useLocalStorage() {
         const updated = { ...product, qntd: 1 };
         prodsList.push(updated);
         localStorage.setItem(key, JSON.stringify(prodsList));
-
-
-        // let localResult = JSON.parse(teste);
-        // localResult.push(product);
-
-        // // let prodsList = [];
-
-        // // prodsList.push(...localResult);
-        // // prodsList.push(product);
-
-        // console.log(localResult);
-
-        // localStorage.setItem(key, JSON.stringify(localResult));
     }
-
-    // function getItems() {
-
-    //     if (typeof window !== 'undefined' && localStorage.getItem(key) !== null) {
-
-    //         let localResult = JSON.parse(localStorage.getItem(key) || '""');
-    //         let prodsList = [];
-    //         prodsList.push(...localResult)
-    //         return prodsList;
-
-    //     }
-    //     return null
-
-    // }
-
 
     function getItems<T>(): T[] {
         if (typeof window !== 'undefined') {

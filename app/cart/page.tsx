@@ -10,10 +10,6 @@ import { userProduct } from "../types/products";
 export default function Page() {
     const [items, setItems] = useState(useLocalStorage().getItems<userProduct>());
     const totalVal = items.reduce((sum, item) => sum + (item.price*item.qntd) , 0).toFixed(2);
-    console.log("cart-item: " + items);
-
-
-    
 
     return (
         <main style={{ display: "flex", paddingTop: "25px", justifyContent: "space-between" }}>

@@ -67,12 +67,13 @@ export default function CartItem({ items, setItems, totalVal }:
         const value = e.target.value;
         const tempItems = [...items];
         const number = parseInt(value);
-
         tempItems[tempItems.indexOf(item)].qntd = number;
         setItems([...tempItems]);
         localStorage.setItem("teste", JSON.stringify(tempItems));
     }
 
+    window.dispatchEvent(new Event('local-storage-changed'));
+    
     return (
         <>
             <p style={{ color: "var(--font-color-dark)", fontWeight: "300", margin: "16px 0" }}>Total (3 produtos)
