@@ -1,6 +1,8 @@
 'use client'
 
+import { useLocalStorage } from "@/app/hooks/useLocalStorage"
 import Link from "next/link"
+import { useState } from "react"
 import styled from "styled-components"
 
 const Card = styled.section`
@@ -58,21 +60,28 @@ const BottonLinks = styled.div`
 `
 
 
-export default function BuyCard({totalVal}:{totalVal:string}) {
-    const freight = (parseFloat(totalVal)+40).toFixed(2);
+export default function BuyCard() {
+    const { getTotalPrice } = useLocalStorage("userCart");
+    const [totalValue, setTotalValue] = useState(getTotalPrice());
+    const freight = (parseFloat(totalValue) + 40).toFixed(2);
 
+    if (typeof window !== 'undefined') {
+        window.addEventListener('local-storage-changed',
+            () => setTotalValue(getTotalPrice())
+        );
+    }
     return (
         <Card>
             <h2>resumo do pedido</h2>
             <div>
                 <p>Subtotal de produtos</p>
-                <p>R$ {totalVal}</p>
+                <p>R$ {totalValue}</p>
             </div>
             <div>
                 <p>Entrega</p>
                 <p>R$ 40,00</p>
             </div>
-            <hr/>
+            <hr />
             <div>
                 <span>Total</span>
                 <span>R$ {freight}</span>
@@ -81,22 +90,22 @@ export default function BuyCard({totalVal}:{totalVal:string}) {
 
             <BottonLinks>
                 <Link
-                href={"#"}
+                    href={"#"}
                 >
                     <p>Ajuda</p>
                 </Link>
                 <Link
-                href={"#"}
+                    href={"#"}
                 >
                     <p>reembolsos</p>
                 </Link>
                 <Link
-                href={"#"}
+                    href={"#"}
                 >
                     <p>entregas e frete</p>
                 </Link>
                 <Link
-                href={"#"}
+                    href={"#"}
                 >
                     <p>trocas e devoluções</p>
                 </Link>

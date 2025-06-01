@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { userProduct } from "../types/products";
+
 
 const HeaderWrapper = styled.header`
     display: flex;
@@ -63,24 +63,13 @@ const CartInputWrapper = styled.div`
 
 
 export default function Header() {
-    const [totalVal, setTotalVal] = useState("0");
+    const { getQuantity } = useLocalStorage("userCart");
+    const [totalVal, setTotalVal] = useState(getQuantity());
 
-    useEffect(() => {
-        const loadTotal = () => {
-            const items = useLocalStorage().getItems<userProduct>();
-            const total = items.reduce((sum, item) => sum + item.qntd, 0).toFixed(0);
-            setTotalVal(total);
-        }
-
-        loadTotal();
-
+    if (typeof window !== 'undefined') {
         window.addEventListener('local-storage-changed',
-            loadTotal
-        );
-        return () => {
-            window.removeEventListener('local-storage-changed', loadTotal);
-        };
-    }, [])
+            () => setTotalVal(getQuantity()));
+    }
 
     return (
         <HeaderWrapper>

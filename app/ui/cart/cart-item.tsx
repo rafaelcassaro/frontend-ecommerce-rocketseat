@@ -4,7 +4,9 @@ import Image from "next/image";
 import styled from "styled-components";
 import icon from '@/app/ui/icons/trash.svg';
 import { userProduct } from "@/app/types/products";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, useState } from "react";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+
 
 const Card = styled.div`
     display: flex;
@@ -53,34 +55,32 @@ const Total = styled.div`
 `
 
 
-export default function CartItem({ items, setItems, totalVal }:
-    { items: userProduct[], setItems: Dispatch<SetStateAction<userProduct[]>>, totalVal: string }) {
+export default function CartItem() {
+    const {setItemQuantity , getTotalPrice, getItems, removeItem} = useLocalStorage("userCart");
+    const [totalCartPrice, setTotalCartPrice] = useState(getTotalPrice());
+    const [cartList, setCartList] = useState<userProduct[]>(getItems());
 
     function handleRemoveItem(item: userProduct) {
-        const tempItems = [...items];
-        tempItems.splice(items.indexOf(item), 1);
-        setItems(tempItems);
-        localStorage.setItem("teste", JSON.stringify(tempItems));
+        removeItem(item);
+        setCartList(getItems());
+        setTotalCartPrice(getTotalPrice());
     }
 
     function handleQuantity(item: userProduct, e: ChangeEvent<HTMLSelectElement>) {
         const value = e.target.value;
-        const tempItems = [...items];
         const number = parseInt(value);
-        tempItems[tempItems.indexOf(item)].qntd = number;
-        setItems([...tempItems]);
-        localStorage.setItem("teste", JSON.stringify(tempItems));
+        setItemQuantity(item, number);
+        setTotalCartPrice(getTotalPrice());
     }
 
-    window.dispatchEvent(new Event('local-storage-changed'));
     
     return (
         <>
             <p style={{ color: "var(--font-color-dark)", fontWeight: "300", margin: "16px 0" }}>Total (3 produtos)
-                <span style={{ fontWeight: "500" }}> R${totalVal}</span>
+                <span style={{ fontWeight: "500" }}> R${totalCartPrice}</span>
             </p>
-            {items !== null ?
-                items.map((item) => (
+            {cartList !== null ?
+                cartList.map((item) => (
                     <Card key={item.id}>
                         <Image
                             src={item.image}

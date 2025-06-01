@@ -1,6 +1,5 @@
 'use client'
 
-import { useLocalStorage } from "@/app/hooks/useLocalStorage"
 import styled from "styled-components"
 
 
@@ -29,7 +28,6 @@ export default function FiltersTypes() {
     return (
         
         <FilterBar>
-            <button onClick={useLocalStorage().showLocal}>Teset</button>
             <FilterList>
                 <li>Todos os produtos</li>
                 <li>Camisetas</li>
