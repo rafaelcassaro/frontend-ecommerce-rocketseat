@@ -56,7 +56,7 @@ export function useLocalStorage(key: string) {
                 const parsed = JSON.parse(localStrg)
                 return parsed;
             }
-            return null;
+            return [];
         }
     }
 
