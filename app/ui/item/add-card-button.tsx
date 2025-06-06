@@ -16,10 +16,10 @@ const AddCartButton = styled.button`
 `
 
 export default function AddCardButton({product}:{product:Product}) {
-    const {setNewItem} = useLocalStorage("userCart");
+    const {toggleItem} = useLocalStorage("userCart");
     
     function handleButton () {
-        setNewItem(product);
+        toggleItem(product);
         window.dispatchEvent(new Event('local-storage-changed'));
     }
 

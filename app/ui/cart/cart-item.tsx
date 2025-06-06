@@ -10,7 +10,9 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 
 const Card = styled.div`
     display: flex;
-    width: 59.11rem;
+    width: 945.76px;
+    height: 271.135px;
+    margin-top: 20px;
 `
 const CardData = styled.div`
     display: flex;
@@ -21,11 +23,11 @@ const CardData = styled.div`
     background-color: #FFFFFF;
     border-radius: 0 8px 8px 0;
     color: var(--font-color-dark);
-    margin-top: 20px;
+
     div{
         display: flex;
         justify-content: space-between;
-
+        
         select{
             font-size: 1.285rem;
             font-weight: 400;
@@ -39,14 +41,20 @@ const CardData = styled.div`
 
     }
 `
-const ItemTitle = styled.div`
+const ItemTitle = styled.h2`
     font-weight: 300;
     font-size: 1.6062rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 80px;
+    margin-bottom: 8px;
 `
 const ItemDescription = styled.p`
     font-weight: 400;
     font-size: 0.9637rem;
     margin-bottom: 1.6062rem;
+    overflow: auto;
+    text-overflow: ellipsis;
 `
 const Total = styled.div`
     font-weight: 600;
@@ -89,7 +97,10 @@ export default function CartItem() {
                             height={271.135}
                             style={{
                                 borderRadius: '8px 0 0 8px',
+                                width: '328.96px',
+                                height: 'auto',
                             }}
+                            priority={false}
                         />
                         <CardData>
                             <div>

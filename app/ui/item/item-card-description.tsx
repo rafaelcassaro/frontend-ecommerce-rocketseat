@@ -72,7 +72,12 @@ const Description = styled.div`
     margin-top: 4rem;
 `
 
-export default function ItemCardDescription({product}:{product: Product}) {
+
+const imageStyle = {
+
+}
+
+export default function ItemCardDescription({ product }: { product: Product }) {
     return (
         <Section>
             <Image
@@ -81,6 +86,12 @@ export default function ItemCardDescription({product}:{product: Product}) {
                 alt="Screenshot"
                 width={800}
                 height={725}
+                style={{
+                    width: '800px',
+                    height: 'auto',
+                }}
+
+
             />
             <Infos>
                 <Text $mode="category">{product.category}</Text>
@@ -97,7 +108,7 @@ export default function ItemCardDescription({product}:{product: Product}) {
                     <Text $mode="description">{product.description}</Text>
                 </Description>
 
-                <AddCardButton product={product}/>
+                <AddCardButton product={product} />
             </Infos>
         </Section>
     )

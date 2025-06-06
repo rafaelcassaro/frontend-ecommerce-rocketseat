@@ -2,7 +2,7 @@ import { Product, userProduct } from "../types/products";
 
 export function useLocalStorage(key: string) {
 
-    function setNewItem(product: Product) {
+    function toggleItem(product: Product) {
 
         if (typeof window === 'undefined') return null;
         const localStrg = localStorage.getItem(key);
@@ -73,7 +73,7 @@ export function useLocalStorage(key: string) {
                 const index = parsed.findIndex((product) => product.id === item.id);
                 parsed[index].qntd = number;
 
-                localStorage.setItem("userCart", JSON.stringify(parsed));
+                localStorage.setItem(key, JSON.stringify(parsed));
                 window.dispatchEvent(new Event('local-storage-changed'));
                 return;
         }
@@ -91,7 +91,7 @@ export function useLocalStorage(key: string) {
                // parsed[index].qntd = number;
                 parsed.splice(index, 1);
 
-                localStorage.setItem("userCart", JSON.stringify(parsed));
+                localStorage.setItem(key, JSON.stringify(parsed));
                 window.dispatchEvent(new Event('local-storage-changed'));
                 return;
         }
@@ -113,7 +113,7 @@ export function useLocalStorage(key: string) {
 
     return {
         getItems,
-        setNewItem,
+        toggleItem,
         setItemQuantity,
         getTotalPrice,
         getQuantity,
