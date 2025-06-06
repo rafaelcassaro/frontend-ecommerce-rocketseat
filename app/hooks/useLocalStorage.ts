@@ -1,122 +1,121 @@
+import { useEffect, useState } from "react";
 import { Product, userProduct } from "../types/products";
 
 export function useLocalStorage(key: string) {
+    const [totalItemQntd, setTotalItemQntd] = useState<string>("0");
+    const [totalValue, setTotalValue] = useState<string>("0");
 
-    function toggleItem(product: Product) {
+    useEffect(() => {
+        const getItemsQuantity = () => {
+            const parsed: userProduct[] = verifyWindow();
 
-        if (typeof window === 'undefined') return null;
-        const localStrg = localStorage.getItem(key);
-
-        if (localStrg) {
-            const updated = { ...product, qntd: 1 };
-            const localResult = JSON.parse(localStrg);
-
-            //REMOVE ITEM IF ALREADY EXISTS
-            for (const prod of localResult) {
-                if (prod.id === updated.id) {
-                    localResult.splice(localResult.indexOf(prod), 1)
-                    localStorage.setItem(key, JSON.stringify(localResult));
-                    return;
-                }
+            const total = parsed.reduce((sum, item) => sum + item.qntd, 0).toFixed(0);
+            if (totalItemQntd !== total) {
+                setTotalItemQntd(total);
+            } else {
+                setTotalItemQntd("0");
             }
 
-            localResult.push(updated);
-            localStorage.setItem(key, JSON.stringify(localResult));
-            return;
         }
 
+        getItemsQuantity();
+        window.addEventListener('local-storage-changed',
+            getItemsQuantity);
 
+        return () => {
+            window.removeEventListener('local-storage-changed', getItemsQuantity);
+        };
+    }, []);
 
-        const prodsList: userProduct[] = [];
+    useEffect(() => {
+        const getTotalPrice = () => {
+            const parsed: userProduct[] = verifyWindow();
+            const total = parsed.reduce((sum, item) => sum + (item.price * item.qntd), 0).toFixed(2);
+
+            if (totalValue !== total) {
+                setTotalValue(total);
+            }
+        }
+
+        getTotalPrice();
+        window.addEventListener('local-storage-changed',
+            getTotalPrice);
+
+        return () => {
+            window.removeEventListener('local-storage-changed', getTotalPrice);
+        };
+    }, []);
+
+    function verifyWindow() {
+        //to not broke code in server side when building the app
+        if (typeof window === 'undefined') {
+            return null;
+        } else {
+            const localStrg = localStorage.getItem(key);
+            if (localStrg) {
+                const parsed = JSON.parse(localStrg)
+                return parsed;
+            }
+            return null;
+        }
+    }
+
+    function toggleItem(product: Product) {
+        const parsed = verifyWindow();
         const updated = { ...product, qntd: 1 };
-        prodsList.push(updated);
-        localStorage.setItem(key, JSON.stringify(prodsList));
+
+        //REMOVE ITEM IF ALREADY EXISTS
+        for (const prod of parsed) {
+            if (prod.id === updated.id) {
+                parsed.splice(parsed.indexOf(prod), 1)
+                localStorage.setItem(key, JSON.stringify(parsed));
+                window.dispatchEvent(new Event('local-storage-changed'));
+                return;
+            }
+        }
+
+        parsed.push(updated);
+        localStorage.setItem(key, JSON.stringify(parsed));
+        window.dispatchEvent(new Event('local-storage-changed'));
     }
 
     function getItems<T>(): T[] {
-        if (typeof window === 'undefined') return [];
-        const localData = localStorage.getItem(key);
+        const parsed = verifyWindow();
 
-        if (localData) {
-            try {
-                const parsed = JSON.parse(localData);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch (error) {
-                console.error('Erro ao fazer parse do localStorage:', error);
-                return [];
-            }
+        try {
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+            console.error('Erro ao fazer parse do localStorage:', error);
+            return [];
         }
-
-        return [];
     }
 
-    function getQuantity () {
-        if (typeof window === 'undefined') return "0";
-      
-        const localData = localStorage.getItem(key);
-        if (localData) {
-                const parsed:userProduct[] = JSON.parse(localData);
-                const totalVal = parsed.reduce((sum, item) => sum + item.qntd, 0).toFixed(0);;
-                
-                return totalVal;
-        }
-        return "0";
+    function setItemQuantity(item: userProduct, number: number) {
+        const parsed: userProduct[] = verifyWindow();
+
+        const index = parsed.findIndex((product) => product.id === item.id);
+        parsed[index].qntd = number;
+
+        localStorage.setItem(key, JSON.stringify(parsed));
+        window.dispatchEvent(new Event('local-storage-changed'));
     }
 
-    function setItemQuantity( item: userProduct, number:number) {
-        
-        if (typeof window === 'undefined') return ;
-        
-        const localData = localStorage.getItem(key);
-        if (localData) {
-                const parsed:userProduct[] = JSON.parse(localData);
-                const index = parsed.findIndex((product) => product.id === item.id);
-                parsed[index].qntd = number;
+    function removeItem(item: userProduct) {
+        const parsed: userProduct[] = verifyWindow();
 
-                localStorage.setItem(key, JSON.stringify(parsed));
-                window.dispatchEvent(new Event('local-storage-changed'));
-                return;
-        }
-        return;
-    }
-
-    function removeItem( item: userProduct) {
-        
-        if (typeof window === 'undefined') return ;
-        
-        const localData = localStorage.getItem(key);
-        if (localData) {
-                const parsed:userProduct[] = JSON.parse(localData);
-                const index = parsed.findIndex((product) => product.id === item.id);
-               // parsed[index].qntd = number;
-                parsed.splice(index, 1);
-
-                localStorage.setItem(key, JSON.stringify(parsed));
-                window.dispatchEvent(new Event('local-storage-changed'));
-                return;
-        }
-        return;
-    }
-
-    function getTotalPrice () {
-        if (typeof window === 'undefined') return "0";
-        const localData = localStorage.getItem(key);
-
-        if (localData) {
-                const parsed:userProduct[] = JSON.parse(localData);
-                const totalVal = parsed.reduce((sum, item) => sum + (item.price*item.qntd) , 0).toFixed(2);
-                return totalVal;
-        }
-        return "0";
+        const index = parsed.findIndex((product) => product.id === item.id);
+        parsed.splice(index, 1);
+        localStorage.setItem(key, JSON.stringify(parsed));
+        window.dispatchEvent(new Event('local-storage-changed'));
     }
 
 
     return {
+        totalItemQntd, setTotalItemQntd,
+        totalValue, setTotalValue,
         getItems,
         toggleItem,
         setItemQuantity,
-        getTotalPrice,
-        getQuantity,
         removeItem
     }
 }

@@ -64,28 +64,24 @@ const Total = styled.div`
 
 
 export default function CartItem() {
-    const {setItemQuantity , getTotalPrice, getItems, removeItem} = useLocalStorage("userCart");
-    const [totalCartPrice, setTotalCartPrice] = useState(getTotalPrice());
+    const {setItemQuantity, totalValue, getItems, removeItem} = useLocalStorage("userCart");
     const [cartList, setCartList] = useState<userProduct[]>(getItems());
 
     function handleRemoveItem(item: userProduct) {
         removeItem(item);
         setCartList(getItems());
-        setTotalCartPrice(getTotalPrice());
     }
 
     function handleQuantity(item: userProduct, e: ChangeEvent<HTMLSelectElement>) {
         const value = e.target.value;
         const number = parseInt(value);
         setItemQuantity(item, number);
-        setTotalCartPrice(getTotalPrice());
     }
 
-    
     return (
         <>
             <p style={{ color: "var(--font-color-dark)", fontWeight: "300", margin: "16px 0" }}>Total (3 produtos)
-                <span style={{ fontWeight: "500" }}> R${totalCartPrice}</span>
+                <span style={{ fontWeight: "500" }}> R${totalValue}</span>
             </p>
             {cartList !== null ?
                 cartList.map((item) => (

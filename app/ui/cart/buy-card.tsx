@@ -2,7 +2,6 @@
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage"
 import Link from "next/link"
-import { useState } from "react"
 import styled from "styled-components"
 
 const Card = styled.section`
@@ -61,15 +60,9 @@ const BottonLinks = styled.div`
 
 
 export default function BuyCard() {
-    const { getTotalPrice } = useLocalStorage("userCart");
-    const [totalValue, setTotalValue] = useState(getTotalPrice());
+    const { totalValue } = useLocalStorage("userCart");
     const freight = (parseFloat(totalValue) + 40).toFixed(2);
 
-    if (typeof window !== 'undefined') {
-        window.addEventListener('local-storage-changed',
-            () => setTotalValue(getTotalPrice())
-        );
-    }
     return (
         <Card>
             <h2>resumo do pedido</h2>

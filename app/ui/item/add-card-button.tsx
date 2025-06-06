@@ -20,7 +20,6 @@ export default function AddCardButton({product}:{product:Product}) {
     
     function handleButton () {
         toggleItem(product);
-        window.dispatchEvent(new Event('local-storage-changed'));
     }
 
     return (

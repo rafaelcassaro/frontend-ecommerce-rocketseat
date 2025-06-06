@@ -5,6 +5,10 @@ import icon from '@/app/ui/icons/back-icon.svg';
 import Link from "next/link";
 
 
+const Div = styled.div`
+    width: 1px;
+`
+
 const BackButton = styled.button`
     display: flex;
     gap: 8px;
@@ -20,14 +24,15 @@ const BackButton = styled.button`
 export default function ButtonBack() {
 
     return (
-        <Link
-        href={"/"}
-        >
-            <BackButton>
-                <Image src={icon} alt="Logo" width={24} height={24} />
-                <p>Voltar</p>
-            </BackButton>
-        </Link>
-       
+        <Div>
+            <Link
+                href={"/"}
+            >
+                <BackButton>
+                    <Image src={icon} alt="Logo" width={24} height={24} />
+                    <p>Voltar</p>
+                </BackButton>
+            </Link>
+        </Div>
     )
 }

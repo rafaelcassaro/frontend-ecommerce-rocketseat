@@ -72,11 +72,6 @@ const Description = styled.div`
     margin-top: 4rem;
 `
 
-
-const imageStyle = {
-
-}
-
 export default function ItemCardDescription({ product }: { product: Product }) {
     return (
         <Section>
