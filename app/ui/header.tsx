@@ -12,7 +12,7 @@ const HeaderWrapper = styled.header`
     max-width: 1440px;
     margin: 0 auto;
     background-color: white;
-    
+    position: relative;
 `
 const ImageWrapper = styled.div`
 
@@ -75,6 +75,7 @@ export default function Header() {
                         alt="Screenshot"
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        
                     />
                 </Link>
             </ImageWrapper>

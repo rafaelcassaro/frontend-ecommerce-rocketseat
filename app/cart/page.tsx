@@ -1,11 +1,12 @@
 import ButtonBack from "../ui/button-back";
 import BuyCard from "../ui/cart/buy-card";
 import CartItem from "../ui/cart/cart-item";
+import { CartArea } from "../ui/cart/cart-styled";
 
 export default function Page() {
   
     return (
-        <main style={{ display: "flex", paddingTop: "25px", justifyContent: "space-between" }}>
+        <CartArea >
             <div>
                 <ButtonBack />
                 <p style={{ fontSize: "24px", fontWeight: "500", color: "var(--font-color-dark)", marginTop: "16px" }}>SEU CARRINHO</p>
@@ -14,7 +15,7 @@ export default function Page() {
             <div>
                 <BuyCard/>
             </div>
-        </main>
+        </CartArea>
 
     )
 }

@@ -10,16 +10,23 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 
 const Card = styled.div`
     display: flex;
-    width: 945.76px;
-    height: 271.135px;
+    width: 59.11rem;
+    
+    height: 16.9459rem;
     margin-top: 20px;
+    @media (max-width: 970px) {
+        width: 100%;
+        height: auto;
+       
+    }
 `
 const CardData = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 1.285rem;
-    width: 38.55rem;
+    width: auto;
+    max-width: 38.55rem;
     background-color: #FFFFFF;
     border-radius: 0 8px 8px 0;
     color: var(--font-color-dark);
@@ -46,8 +53,14 @@ const ItemTitle = styled.h2`
     font-size: 1.6062rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 80px;
+    height: 5rem;
     margin-bottom: 8px;
+    @media (max-width: 970px) {
+         overflow: hidden;
+         text-overflow: clip;
+         font-size: 1.25rem;
+         height: auto;
+    }
 `
 const ItemDescription = styled.p`
     font-weight: 400;
@@ -55,16 +68,36 @@ const ItemDescription = styled.p`
     margin-bottom: 1.6062rem;
     overflow: auto;
     text-overflow: ellipsis;
+    @media (max-width: 970px) {
+         display: none;
+         height: 0;
+    }
 `
 const Total = styled.div`
     font-weight: 600;
-    font-size: 1.285rem;
+    font-size: 20.56px;
     color: var(--font-color-black);
+    @media (max-width: 900px) {
+         font-size: 1.125rem;
+    }
+`
+const ImageWrapper = styled.div`
+    width: 100%;
+    max-width: 20.56rem;
+    height:  auto;
+    
+    position: relative;
+    @media (max-width: 900px) {
+        width: 100%;
+        max-width: 156px;
+        height:  auto;
+       
+        background-color: white;
+    }
 `
 
-
 export default function CartItem() {
-    const {setItemQuantity, totalValue, getItems, removeItem} = useLocalStorage("userCart");
+    const { setItemQuantity, totalValue, getItems, removeItem } = useLocalStorage("userCart");
     const [cartList, setCartList] = useState<userProduct[]>(getItems());
 
     function handleRemoveItem(item: userProduct) {
@@ -86,18 +119,14 @@ export default function CartItem() {
             {cartList !== null ?
                 cartList.map((item) => (
                     <Card key={item.id}>
-                        <Image
-                            src={item.image}
-                            alt="Screenshot"
-                            width={328.96}
-                            height={271.135}
-                            style={{
-                                borderRadius: '8px 0 0 8px',
-                                width: '328.96px',
-                                height: 'auto',
-                            }}
-                            priority={false}
-                        />
+                        <ImageWrapper>
+                            <Image
+                                src={item.image}
+                                alt="Screenshot"
+                                fill
+                                priority={false}
+                            />
+                        </ImageWrapper>
                         <CardData>
                             <div>
                                 <ItemTitle>{item.title}</ItemTitle>

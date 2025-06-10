@@ -45,6 +45,25 @@ const Card = styled.section`
         border-radius: 4px;
         cursor: pointer;
     }
+
+    @media (max-width: 1439px) {
+        height: auto;
+        width: 22.02rem;
+        h2{
+            font-size: 20px;
+        }
+
+        p{
+            font-size: 13px;
+        }
+        span{
+            font-size: 18px;
+        }
+        button{
+            font-size: 18px;
+        }
+
+    }
 `
 const BottonLinks = styled.div`
     display: flex;
@@ -52,9 +71,16 @@ const BottonLinks = styled.div`
     margin-top: auto;
     text-transform: uppercase;
     gap: 0.375rem;
+    
     p{
         font-size: 1.125rem;
         color: var(--font-color-grey);
+    }
+    @media (max-width: 1439px) {
+
+        p{
+            display: none;
+        }
     }
 `
 

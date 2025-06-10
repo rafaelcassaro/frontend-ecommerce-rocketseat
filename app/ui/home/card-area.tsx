@@ -9,10 +9,11 @@ export const BgColor = styled.div`
 export const CardsArea = styled.div`
   padding-top: 32px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* grid-template-columns: repeat(4, 1fr); */
+  grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
   gap: 2rem;
 
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 700px) {
+    place-items: center;
   }
 `

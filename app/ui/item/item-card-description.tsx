@@ -16,6 +16,11 @@ const Section = styled.section`
     margin: 0 auto;
     gap: 2rem;
     padding-top: 25px;
+    @media (max-width: 840px) {
+        flex-direction: column;
+        max-height: 1200px;
+        padding: 10px;
+    }
 `
 const NamePrice = styled.div`
     font-size: 41.12px;
@@ -72,22 +77,31 @@ const Description = styled.div`
     margin-top: 4rem;
 `
 
+const ImageWrapper = styled.div`
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    
+    position: relative;
+    @media (max-width: 840px) {
+        height:536px;
+        max-width: 700px;
+        align-self: center;
+    }
+`
+
+
 export default function ItemCardDescription({ product }: { product: Product }) {
     return (
         <Section>
-            <Image
-                priority={false}
-                src={product.image}
-                alt="Screenshot"
-                width={800}
-                height={725}
-                style={{
-                    width: '800px',
-                    height: 'auto',
-                }}
-
-
-            />
+            <ImageWrapper>
+                <Image
+                    priority={false}
+                    src={product.image}
+                    alt="Screenshot"
+                    fill
+                />
+            </ImageWrapper>
             <Infos>
                 <Text $mode="category">{product.category}</Text>
 
